@@ -46,11 +46,9 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             }
-
         }
     }
 
@@ -73,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("MissingPermission")
             @Override
             public void onLocationChanged(Location location) {
-                Toast.makeText(MainActivity.this,"New Position",Toast.LENGTH_LONG).show();
+//                Toast.makeText(MainActivity.this,"New Position",Toast.LENGTH_LONG).show();
                 getLocation(location);
             }
 
@@ -97,8 +95,6 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
         } else {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,locationListener);
-//            Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//            getLocation(lastKnownLocation);
         }
     }
 
@@ -109,9 +105,7 @@ public class MainActivity extends AppCompatActivity {
         altitude = location.getAltitude();
 
         // Add a marker in userPosition and move the camera
-//        LatLng userPosition = new LatLng(latitude, longitude);
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-
         try {
             List<Address> listAddresses = geocoder.getFromLocation(latitude,longitude,1);
 
@@ -130,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
                     anAddress += listAddresses.get(0).getAdminArea();
                 }
 
-//                Toast.makeText(MainActivity.this,"New Position",Toast.LENGTH_LONG).show();
                 Log.i("Location Data ===> ", listAddresses.get(0).toString());
 
                 latitudeTextView.setText(Double.toString(Math.round(latitude)));
