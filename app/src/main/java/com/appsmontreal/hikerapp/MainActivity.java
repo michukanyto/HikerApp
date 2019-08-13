@@ -14,15 +14,10 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
-
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -72,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onLocationChanged(Location location) {
 //                Toast.makeText(MainActivity.this,"New Position",Toast.LENGTH_LONG).show();
-                getLocation(location);
+                updateLocation(location);
             }
 
             @Override
@@ -95,10 +90,12 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
         } else {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,locationListener);
+            lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            updateLocation(lastKnownLocation);
         }
     }
 
-    private void getLocation(Location location) {
+    private void updateLocation(Location location) {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
         accuracy = location.getAccuracy();
